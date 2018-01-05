@@ -1,0 +1,421 @@
+ -----------------------Test Case: 1----------------------------
+                The input is: .DE    .E
+         The dividend length: 11011110 8
+          The divisor length: 1110 4
+
+                         AQ = .1101  1110
+                          B = .1110
+               Normalized B = .1110              0Δt
+
+ Complement of Normalized B = 1.0010     4Δt
+------------------------INITIALIZATION-----------------------
+                             .1101  1110
+                 Adjusted AQ: .1101  1110              4Δt
+                  Subtract B: 1.0010
+                               ---------
+            Negative Result : 1.1111  1110             12Δt
+    Shift AQ left, q0 <- 0 :  1.1111  1100             15Δt
+              Shift Over 1's: 1.1100  1111             27Δt
+         Correct remainer by  1.1110             30Δt
+     Shifting A and adding B  .1110
+                              --------
+                               0.1100
+------------------------RESULTS-------------------------------
+                   QUOTIENT: .1111
+                  REMAINDER: .00001100
+                       DELAY: 38Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 2----------------------------
+                The input is: .19    .5
+         The dividend length: 00011001 8
+          The divisor length: 0101 4
+
+                         AQ = .0001  1001
+                          B = .0101
+               Normalized B = .1010              3Δt
+
+ Complement of Normalized B = 1.0110     7Δt
+------------------------INITIALIZATION-----------------------
+                             .0001  1001
+                 Adjusted AQ: .0011  001*             10Δt
+              Shift Over 0's: .1100  1*00             16Δt
+                  Subtract B: 1.0110
+                               ---------
+            Positive Result : 0.0010  1*00             24Δt
+    Shift AQ left, q0 <- 1 :  .0101  *001             27Δt
+              Shift Over 0's: .101*  0010             30Δt
+                  Subtract B: 1.0110
+                               ---------
+            Positive Result : 0.000*  0010             38Δt
+    Shift AQ left, q0 <- 1 :  .00*0  0101             41Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .0101
+                   REMAINDER: .00000000
+                       DELAY: 41Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 3----------------------------
+                The input is: .CD    .A
+         The dividend length: 11001101 8
+          The divisor length: 1010 4
+
+ First k bits of dividend (AQ) is higher than that of divisor 
+ We need to correct this: 
+
+ We add 1 zero to divisor after the decimal and 2 zero's to the 
+ dividend repeatedly unless the high k bits of dividend (AQ) 
+ becomes smaller than that of divisor 
+
+                         AQ = .00110  01101
+                          B = .01010
+               Normalized B = .10100              3Δt
+
+ Complement of Normalized B = 1.01100     8Δt
+------------------------INITIALIZATION-----------------------
+                             .00110  01101
+                 Adjusted AQ: .01100  1101*             11Δt
+              Shift Over 0's: .11001  101*0             14Δt
+                  Subtract B: 1.01100
+                               ---------
+            Positive Result : 0.00101  101*0             24Δt
+    Shift AQ left, q0 <- 1 :  .01011  01*01             27Δt
+              Shift Over 0's: .10110  1*010             30Δt
+                  Subtract B: 1.01100
+                               ---------
+            Positive Result : 0.00010  1*010             40Δt
+    Shift AQ left, q0 <- 1 :  .00101  *0101             43Δt
+              Shift Over 0's: .101*0  10100             49Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .10100
+                   REMAINDER: .0000000101
+                       DELAY: 49Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 4----------------------------
+                The input is: .156    .101110(binary)
+         The dividend length: 000101010110 12
+          The divisor length: 101110 6
+
+                         AQ = .000101  010110
+                          B = .101110
+               Normalized B = .101110              0Δt
+
+ Complement of Normalized B = 1.010010     6Δt
+------------------------INITIALIZATION-----------------------
+                             .000101  010110
+                 Adjusted AQ: .000101  010110              6Δt
+              Shift Over 0's: .101010  110000             15Δt
+                  Subtract B: 1.010010
+                               ---------
+            Negative Result : 1.111100  110000             25Δt
+    Shift AQ left, q0 <- 0 :  1.111001  100000             28Δt
+              Shift Over 1's: 1.001100  000111             37Δt
+         Correct remainer by  1.100110             40Δt
+     Shifting A and adding B  .101110
+                              --------
+                               0.010100
+------------------------RESULTS-------------------------------
+                   QUOTIENT: .000111
+                  REMAINDER: .000000010100
+                       DELAY: 50Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 5----------------------------
+                The input is: .232    .011111(binary)
+         The dividend length: 001000110010 12
+          The divisor length: 011111 6
+
+                         AQ = .001000  110010
+                          B = .011111
+               Normalized B = .111110              3Δt
+
+ Complement of Normalized B = 1.000010     9Δt
+------------------------INITIALIZATION-----------------------
+                             .001000  110010
+                 Adjusted AQ: .010001  10010*             12Δt
+              Shift Over 0's: .100011  0010*0             15Δt
+                  Subtract B: 1.000010
+                               ---------
+            Negative Result : 1.100101  0010*0             25Δt
+    Shift AQ left, q0 <- 0 :  1.001010  010*00             28Δt
+                       Add B: .111110
+                               ---------
+            Positive Result : 0.001000  010*00             38Δt
+    Shift AQ left, q0 <- 1 :  .010000  10*001             41Δt
+              Shift Over 0's: .100001  0*0010             44Δt
+                  Subtract B: 1.000010
+                               ---------
+            Negative Result : 1.100011  0*0010             54Δt
+    Shift AQ left, q0 <- 0 :  1.000110  *00100             57Δt
+                       Add B: .111110
+                               ---------
+            Positive Result : 0.000100  *00100             67Δt
+    Shift AQ left, q0 <- 1 :  .00100*  001001             70Δt
+              Shift Over 0's: .0100*0  010010             73Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .010010
+                   REMAINDER: .000000000100
+                       DELAY: 73Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 6----------------------------
+                The input is: .1111    .22
+         The dividend length: 0001000100010001 16
+          The divisor length: 00100010 8
+
+                         AQ = .00010001  00010001
+                          B = .00100010
+               Normalized B = .10001000              6Δt
+
+ Complement of Normalized B = 1.01111000     14Δt
+------------------------INITIALIZATION-----------------------
+                             .00010001  00010001
+                 Adjusted AQ: .01000100  010001**             20Δt
+              Shift Over 0's: .10001000  10001**0             23Δt
+                  Subtract B: 1.01111000
+                               ---------
+            Positive Result : 0.00000000  10001**0             35Δt
+    Shift AQ left, q0 <- 1 :  .00000001  0001**01             38Δt
+              Shift Over 0's: .10001**0  10000000             59Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .10000000
+                   REMAINDER: .0000000000010001
+                       DELAY: 59Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 7----------------------------
+                The input is: .3333    .11
+         The dividend length: 0011001100110011 16
+          The divisor length: 00010001 8
+
+ First k bits of dividend (AQ) is higher than that of divisor 
+ We need to correct this: 
+
+ We add 1 zero to divisor after the decimal and 2 zero's to the 
+ dividend repeatedly unless the high k bits of dividend (AQ) 
+ becomes smaller than that of divisor 
+
+                         AQ = .0000001100  1100110011
+                          B = .0000010001
+               Normalized B = .1000100000             15Δt
+
+ Complement of Normalized B = 1.0111100000     25Δt
+------------------------INITIALIZATION-----------------------
+                             .0000001100  1100110011
+                 Adjusted AQ: .0110011001  10011*****             40Δt
+              Shift Over 0's: .1100110011  0011*****0             43Δt
+                  Subtract B: 1.0111100000
+                               ---------
+            Positive Result : 0.0100010011  0011*****0             57Δt
+    Shift AQ left, q0 <- 1 :  .1000100110  011*****01             60Δt
+                  Subtract B: 1.0111100000
+                               ---------
+            Positive Result : 0.0000000110  011*****01             74Δt
+    Shift AQ left, q0 <- 1 :  .0000001100  11*****011             77Δt
+              Shift Over 0's: .110011****  *011000000             95Δt
+                  Subtract B: 1.0111100000
+                               ---------
+            Positive Result : 0.010001****  *011000000            109Δt
+    Shift AQ left, q0 <- 1 :  .10001*****  0110000001            112Δt
+                  Subtract B: 1.0111100000
+                               ---------
+            Positive Result : 0.00000*****  0110000001            126Δt
+    Shift AQ left, q0 <- 1 :  .0000*****0  1100000011            129Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .1100000011
+                   REMAINDER: .00000000000000000000
+                       DELAY: 129Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 8----------------------------
+                The input is: .5AC2    .79
+         The dividend length: 0101101011000010 16
+          The divisor length: 01111001 8
+
+                         AQ = .01011010  11000010
+                          B = .01111001
+               Normalized B = .11110010              3Δt
+
+ Complement of Normalized B = 1.00001110     11Δt
+------------------------INITIALIZATION-----------------------
+                             .01011010  11000010
+                 Adjusted AQ: .10110101  1000010*             14Δt
+                  Subtract B: 1.00001110
+                               ---------
+            Negative Result : 1.11000011  1000010*             26Δt
+    Shift AQ left, q0 <- 0 :  1.10000111  000010*0             29Δt
+              Shift Over 1's: 1.00001110  00010*01             32Δt
+                       Add B: .11110010
+                               ---------
+            Positive Result : 0.00000000  00010*01             44Δt
+    Shift AQ left, q0 <- 1 :  .00000000  0010*011             47Δt
+              Shift Over 0's: .000010*0  11000000             65Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .11000000
+                   REMAINDER: .0000000000000010
+                       DELAY: 65Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 9----------------------------
+                The input is: .9CDE11    .ABC
+         The dividend length: 100111001101111000010001 24
+          The divisor length: 101010111100 12
+
+                         AQ = .100111001101  111000010001
+                          B = .101010111100
+               Normalized B = .101010111100              0Δt
+
+ Complement of Normalized B = 1.010101000100     12Δt
+------------------------INITIALIZATION-----------------------
+                             .100111001101  111000010001
+                 Adjusted AQ: .100111001101  111000010001             12Δt
+                  Subtract B: 1.010101000100
+                               ---------
+            Negative Result : 1.111100010001  111000010001             28Δt
+    Shift AQ left, q0 <- 0 :  1.111000100011  110000100010             31Δt
+              Shift Over 1's: 1.000100011110  000100010111             40Δt
+                       Add B: .101010111100
+                               ---------
+            Negative Result : 1.101111011010  000100010111             56Δt
+    Shift AQ left, q0 <- 0 :  1.011110110100  001000101110             59Δt
+                       Add B: .101010111100
+                               ---------
+            Positive Result : 0.001001110000  001000101110             75Δt
+    Shift AQ left, q0 <- 1 :  .010011100000  010001011101             78Δt
+              Shift Over 0's: .100111000000  100010111010             81Δt
+                  Subtract B: 1.010101000100
+                               ---------
+            Negative Result : 1.111100000100  100010111010             97Δt
+    Shift AQ left, q0 <- 0 :  1.111000001001  000101110100            100Δt
+              Shift Over 1's: 1.000001001000  101110100111            109Δt
+                       Add B: .101010111100
+                               ---------
+            Negative Result : 1.101100000100  101110100111            125Δt
+    Shift AQ left, q0 <- 0 :  1.011000001001  011101001110            128Δt
+                       Add B: .101010111100
+                               ---------
+            Positive Result : 0.000011000101  011101001110            144Δt
+    Shift AQ left, q0 <- 1 :  .000110001010  111010011101            147Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .111010011101
+                   REMAINDER: .000000000000000110001010
+                       DELAY: 147Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 10----------------------------
+                The input is: .672300    .DEF
+         The dividend length: 011001110010001100000000 24
+          The divisor length: 110111101111 12
+
+                         AQ = .011001110010  001100000000
+                          B = .110111101111
+               Normalized B = .110111101111              0Δt
+
+ Complement of Normalized B = 1.001000010001     12Δt
+------------------------INITIALIZATION-----------------------
+                             .011001110010  001100000000
+                 Adjusted AQ: .011001110010  001100000000             12Δt
+              Shift Over 0's: .110011100100  011000000000             15Δt
+                  Subtract B: 1.001000010001
+                               ---------
+            Negative Result : 1.111011110101  011000000000             31Δt
+    Shift AQ left, q0 <- 0 :  1.110111101010  110000000000             34Δt
+              Shift Over 1's: 1.011110101011  000000000011             40Δt
+                       Add B: .110111101111
+                               ---------
+            Positive Result : 0.010110011010  000000000011             56Δt
+    Shift AQ left, q0 <- 1 :  .101100110100  000000000111             59Δt
+                  Subtract B: 1.001000010001
+                               ---------
+            Negative Result : 1.110101000101  000000000111             75Δt
+    Shift AQ left, q0 <- 0 :  1.101010001010  000000001110             78Δt
+              Shift Over 1's: 1.010100010100  000000011101             81Δt
+                       Add B: .110111101111
+                               ---------
+            Positive Result : 0.001100000011  000000011101             97Δt
+    Shift AQ left, q0 <- 1 :  .011000000110  000000111011            100Δt
+              Shift Over 0's: .110000001100  000001110110            103Δt
+                  Subtract B: 1.001000010001
+                               ---------
+            Negative Result : 1.111000011101  000001110110            119Δt
+    Shift AQ left, q0 <- 0 :  1.110000111010  000011101100            122Δt
+              Shift Over 1's: 1.000011101000  001110110011            128Δt
+                       Add B: .110111101111
+                               ---------
+            Negative Result : 1.111011010111  001110110011            144Δt
+    Shift AQ left, q0 <- 0 :  1.110110101110  011101100110            147Δt
+         Correct remainer by  1.111011010111            150Δt
+     Shifting A and adding B  .110111101111
+                              --------
+                               0.110011000110
+------------------------RESULTS-------------------------------
+                   QUOTIENT: .011101100110
+                  REMAINDER: .000000000000110011000110
+                       DELAY: 166Δt
+ 
+ 
+ 
+ 
+ -----------------------Test Case: 11----------------------------
+                The input is: .ABCDEF    .987
+         The dividend length: 101010111100110111101111 24
+          The divisor length: 100110000111 12
+
+ First k bits of dividend (AQ) is higher than that of divisor 
+ We need to correct this: 
+
+ We add 1 zero to divisor after the decimal and 2 zero's to the 
+ dividend repeatedly unless the high k bits of dividend (AQ) 
+ becomes smaller than that of divisor 
+
+                         AQ = .0010101011110  0110111101111
+                          B = .0100110000111
+               Normalized B = .1001100001110              3Δt
+
+ Complement of Normalized B = 1.0110011110010     16Δt
+------------------------INITIALIZATION-----------------------
+                             .0010101011110  0110111101111
+                 Adjusted AQ: .0101010111100  110111101111*             19Δt
+              Shift Over 0's: .1010101111001  10111101111*0             22Δt
+                  Subtract B: 1.0110011110010
+                               ---------
+            Positive Result : 0.0001001101011  10111101111*0             40Δt
+    Shift AQ left, q0 <- 1 :  .0010011010111  0111101111*01             43Δt
+              Shift Over 0's: .1001101011101  11101111*0100             49Δt
+                  Subtract B: 1.0110011110010
+                               ---------
+            Positive Result : 0.0000001001111  11101111*0100             67Δt
+    Shift AQ left, q0 <- 1 :  .0000010011111  1101111*01001             70Δt
+              Shift Over 0's: .1001111111011  11*0100100000             85Δt
+                  Subtract B: 1.0110011110010
+                               ---------
+            Positive Result : 0.0000011101101  11*0100100000            103Δt
+    Shift AQ left, q0 <- 1 :  .0000111011011  1*01001000001            106Δt
+              Shift Over 0's: .01110110111*0  1001000001000            115Δt
+------------------------RESULTS-------------------------------
+                    QUOTIENT: .1001000001000
+                   REMAINDER: .00000000000000001110110111
+                       DELAY: 115Δt
+ 
+ 
+ 
+ 
